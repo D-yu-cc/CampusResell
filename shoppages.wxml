@@ -1,0 +1,82 @@
+<view class="publish-container">
+  <form bindsubmit="formSubmit">
+    <!-- 商品图片上传 -->
+    <view class="form-section">
+      <view class="section-title">商品图片</view>
+      <view class="uploader">
+        <view class="uploader-items">
+          <block wx:for="{{images}}" wx:key="*this">
+            <view class="uploader-item">
+              <image src="{{item}}" class="uploader-image" mode="aspectFill"></image>
+              <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+            </view>
+          </block>
+          <view class="uploader-btn" wx:if="{{images.length < 9}}" bindtap="chooseImage">
+            <image src="/static/images/camera.png" class="camera-icon"></image>
+            <text class="uploader-text">上传图片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 商品信息 -->
+    <view class="form-section">
+      <view class="section-title">商品信息</view>
+      
+      <view class="form-item">
+        <view class="form-label">商品标题</view>
+        <input class="form-input" name="title" placeholder="请输入商品标题" value="{{formData.title}}" />
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">商品描述</view>
+        <textarea class="form-textarea" name="description" placeholder="请详细描述商品信息..." value="{{formData.description}}"></textarea>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">商品分类</view>
+        <picker class="form-picker" name="category" range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="categoryChange">
+          <view class="picker-content">
+            {{categories[categoryIndex] ? categories[categoryIndex].name : '请选择分类'}}
+          </view>
+        </picker>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">价格</view>
+        <view class="price-input">
+          <text class="price-symbol">¥</text>
+          <input class="form-input" type="digit" name="price" placeholder="0.00" value="{{formData.price}}" />
+        </view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">原价</view>
+        <view class="price-input">
+          <text class="price-symbol">¥</text>
+          <input class="form-input" type="digit" name="originalPrice" placeholder="0.00" value="{{formData.originalPrice}}" />
+        </view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">交易方式</view>
+        <view class="trade-methods">
+          <label class="method-item" wx:for="{{tradeMethods}}" wx:key="value">
+            <checkbox value="{{item.value}}" checked="{{item.checked}}" bindchange="methodChange" />
+            <text class="method-text">{{item.name}}</text>
+          </label>
+        </view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">联系方式</view>
+        <input class="form-input" name="contact" placeholder="请输入手机号或微信号" value="{{formData.contact}}" />
+      </view>
+    </view>
+    
+    <!-- 提交按钮 -->
+    <view class="form-actions">
+      <button class="btn btn-primary" formType="submit" disabled="{{!canSubmit}}">发布商品</button>
+    </view>
+  </form>
+</view>
