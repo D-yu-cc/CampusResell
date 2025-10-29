@@ -3,7 +3,7 @@ App({
     // 初始化云开发环境
     if (wx.cloud) {
       wx.cloud.init({
-        env: 'your-cloud-env-id', // 需要替换为你的云环境ID
+        env: 'cloud1-4g318fw4a9d6ba0e', // 需要替换为你的云环境ID
         traceUser: true
       })
     }
