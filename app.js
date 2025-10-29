@@ -3,7 +3,7 @@ App({
     // 初始化云开发环境
     if (wx.cloud) {
       wx.cloud.init({
-        env: 'your-cloud-env-id', // 替换为你的云环境ID
+        env: 'your-cloud-env-id', // 需要替换为你的云环境ID
         traceUser: true
       })
     }
@@ -23,7 +23,8 @@ App({
   globalData: {
     userInfo: null,
     systemInfo: null,
-    isIPhoneX: false
+    isIPhoneX: false,
+    isLoggedIn: false
   },
   
   checkLoginStatus: function() {
@@ -40,5 +41,32 @@ App({
         }
       })
     }
+  },
+  
+  // 登录方法
+  login: function(callback) {
+    wx.login({
+      success: (res) => {
+        if (res.code) {
+          // 调用云函数登录
+          wx.cloud.callFunction({
+            name: 'login',
+            data: {
+              code: res.code
+            },
+            success: (res) => {
+              const { userInfo, token } = res.result
+              this.globalData.userInfo = userInfo
+              this.globalData.isLoggedIn = true
+              wx.setStorageSync('token', token)
+              callback && callback(true)
+            },
+            fail: () => {
+              callback && callback(false)
+            }
+          })
+        }
+      }
+    })
   }
 })
