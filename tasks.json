@@ -1,0 +1,12 @@
+// tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Preview WXML",
+            "type": "shell",
+            "command": "node preview-server.js",
+            "group": "build"
+        }
+    ]
+}
